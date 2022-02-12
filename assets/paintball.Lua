@@ -46,10 +46,9 @@ local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# wi
                 if new_connect.Size ~= Vector3.new(0,0,0) then
                     new_node.Parent = paths_folder
                     new_connection.Parent = paths_folder
-                    break; return { paths_folder, finished == true, b_dist }
-                else
-                    finished = false
+                    break; return { paths_folder, finished == true, b_dist, real_time }
                 end
+                return finished
             end
         end
     end
@@ -70,7 +69,7 @@ predict_path = function()
             p_line.Name = "prediciton"
             p_line.Color = Color3.fromRGB(255, 0, 0)
             p_line.Position = point_a.Position
-            local tj_measure = traj.get_trajectory(p_line, cur_path.b_dist)
+            local tj_measure = traj.get_trajectory(p_line, cur_path.b_dist, cur_path.real_time)
             print(tj_measure)
         end
     end
