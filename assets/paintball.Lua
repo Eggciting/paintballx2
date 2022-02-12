@@ -101,9 +101,9 @@ try_atck_dmg = function()
             end
         end
         local travel_speed = time/bullet_dist
-        if travel_speed ~= 0 then
-            isInMotion = true
-        end
+        -- if travel_speed ~= 0 then
+        --     isInMotion = true
+        -- end
         local dmg_factor = hydrogen*(travel_speed*multi)
         register_hit(travel_speed, bullet_dist, projectile, dmg_factor, hit)
     end
