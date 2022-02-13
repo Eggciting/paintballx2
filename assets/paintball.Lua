@@ -41,12 +41,12 @@ local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# wi
         for x, _ in pairs (current_nodes) do
             if x >= 0 then
                 local new_connection = connection:Clone()
-                new_connection.Position = current_nodes[x-1]]
+                new_connection.Position = current_nodes[x-1]
                 new_connection.Size:Lerp(current_nodes[x+1].Size, 1) --# 100% fullfil rate
                 if new_connect.Size ~= Vector3.new(0,0,0) then
                     new_node.Parent = paths_folder
                     new_connection.Parent = paths_folder
-                    break; return { paths_folder, finished == true, b_dist, real_time }
+                    break; return { paths_folder, finished == true, b_dist, speed }
                 end
                 return finished
             end
@@ -69,7 +69,7 @@ predict_path = function()
             p_line.Name = "prediciton"
             p_line.Color = Color3.fromRGB(255, 0, 0)
             p_line.Position = point_a.Position
-            local tj_measure = traj.get_trajectory(p_line, cur_path.b_dist, cur_path.real_time)
+            local tj_measure = traj.calc_and_get_trajectory(cur_path.b_dist, cur_path.speed, isMoving)
             print(tj_measure)
         end
     end
@@ -101,9 +101,9 @@ try_atck_dmg = function()
             end
         end
         local travel_speed = time/bullet_dist
-        -- if travel_speed ~= 0 then
-        --     isMoving = true
-        -- end
+        if travel_speed ~= 0 then
+            isMoving = true
+        end
         local dmg_factor = hydrogen*(travel_speed*multi)
         register_hit(travel_speed, bullet_dist, projectile, dmg_factor, hit)
     end
