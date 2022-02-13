@@ -4,7 +4,7 @@ local multi = 2
 
 local isSuppressed = false
 local hit = false
-local isInMotion = false
+local isMoving = false
 local current_nodes = {}
 local time
 
@@ -92,17 +92,17 @@ try_atck_dmg = function()
     local bullet_dist = point_a.Positon - point_b.Position
     local projectile = Instance.new("Part")
     projectile.Positon += Vector3.new(0, 0, -5)
-    return (cc == coroutine.new(function()
+    return (cc = coroutine.new(function()
         while projectile.Position ~= point_b.Position and not hit do
             time += 1.5
-            if projectile.Positon ~= point_b.Position then
+            if projectile.Positon == point_b.Position then
                 hit = true
                 break
             end
         end
         local travel_speed = time/bullet_dist
         -- if travel_speed ~= 0 then
-        --     isInMotion = true
+        --     isMoving = true
         -- end
         local dmg_factor = hydrogen*(travel_speed*multi)
         register_hit(travel_speed, bullet_dist, projectile, dmg_factor, hit)
