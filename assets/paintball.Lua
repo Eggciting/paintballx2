@@ -70,7 +70,7 @@ predict_path = function()
             p_line.Color = Color3.fromRGB(255, 0, 0)
             p_line.Position = point_a.Position
             local tj_measure = traj.calc_and_get_trajectory(cur_path.b_dist, cur_path.speed, isMoving)
-            print(tj_measure)
+            print(tj_measure[1])
         end
     end
 end
