@@ -20,8 +20,7 @@ traj.calc_and_get_trajectory = function(distance: Number, speed: Number, isMovin
 				cur_traj_nodes[node-1].Rotation += cur_traj_nodes[node+1].Rotation*(arc_missfire*speed/arc_strength)
 				if (cur_traj_nodes[node].Positon ~= Vector3.new(0,0,0) and cur_traj_nodes[node].Rotation ~= Vector3.new(0,0,0)) then
 					-- cur_traj_nodes[node+1].Rotation.Y += arc_missfire
-					calculated = true
-					break; return cur_traj_nodes[node].Position
+					break; return { cur_traj_nodes[node].Position, calculated == true }
 				end
 			end
 		end
