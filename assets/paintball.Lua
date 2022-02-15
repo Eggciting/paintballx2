@@ -12,7 +12,7 @@ local point_a = workspace.point_a
 local point_b = workspace.point_b
 point_b:AddAttribute("Health", 100)
 
-local function charge_gas()
+local charge_gas = function()
     while gas == 0.0 do
         gas += 1
         if gas == max_gas then
@@ -57,7 +57,7 @@ end
 predict_path = function()
     local cur_path = make_and_get_path()
     for _, path_instance in pairs (cur_path.paths_folder:GetChildren()) do
-        --# TODO: make path predict thing here
+        
         if cur_path.finished then
             if path_instance.Name == "NODE" then
                 local read_node_pos = path_instance.Positon
@@ -70,7 +70,10 @@ predict_path = function()
             p_line.Color = Color3.fromRGB(255, 0, 0)
             p_line.Position = point_a.Position
             local tj_measure = traj.calc_and_get_trajectory(cur_path.b_dist, cur_path.speed, isMoving)
-            print(tj_measure)
+            if (tj_measure.calculated) then
+                print("Trajectory Measured - " ..tj_measure.trajectory) --# is a vec3
+                
+            end
         end
     end
 end
