@@ -41,7 +41,7 @@ return (local traj = {
 					if (cur_traj_nodes[node].Positon ~= Vector3.new(0,0,0) and cur_traj_nodes[node].Rotation ~= Vector3.new(0,0,0)) then
 						-- clean up nodes
 						local trajectory = cur_traj_nodes[node].Position
-						local cup = clean_up.resume(cur_traj_nodes, cur_traj_nodes[node], node, trajectory)
+						clean_up.resume(cur_traj_nodes, cur_traj_nodes[node], node, trajectory)
 						break; return { trajectory, calculated == true }
 					end
 				end
