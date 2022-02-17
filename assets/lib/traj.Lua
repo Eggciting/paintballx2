@@ -9,7 +9,7 @@ local clean_up = function(ctn, nodes, n: Number, --[[t: Vector3]])
 				nodes:Destroy()
 				for i, _ in pairs (ctn) do
 					for _, m in pairs (workspace.clean_mid:GetChildren()) do
-						local indiv = math.floor((m/2)-1)
+						local indiv = math.floor((m/4)-1)
 						indiv.Size:Lerp(ctn[i].Size, 1)
 					end
 				end
