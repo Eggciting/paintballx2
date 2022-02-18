@@ -15,9 +15,9 @@ point_b:AddAttribute("Health", 100)
 local traj = require(game.ServerScriptSerivce:WaitForChild("Trajectory"))
 
 local charge_gas = function()
-    while gas == 0.0 do
+    while (gas == 0.0) do
         gas += 1
-        if gas == max_gas then
+        if (gas == max_gas) then
             print(gas)
             break
         end
@@ -41,11 +41,11 @@ local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# wi
         new_node.Position = bullet.Position
         table.insert(current_nodes, new_node)
         for i, _ in pairs (current_nodes) do
-            if x >= 0 then
+            if (x >= 0) then
                 local new_connection = connection:Clone()
                 new_connection.Position = current_nodes[i-1]
                 new_connection.Size:Lerp(current_nodes[i+1].Size, 1) --# 100% fullfil rate
-                if new_connect.Size ~= Vector3.new(0,0,0) then
+                if (new_connect.Size ~= Vector3.new(0,0,0)) then
                     new_node.Parent = paths_folder
                     new_connection.Parent = paths_folder
                     break; return { paths_folder, finished == true, b_dist, speed }
@@ -59,11 +59,11 @@ end
 predict_path = function()
     local cur_path = make_and_get_path()
     for _, path_instance in pairs (cur_path.paths_folder:GetChildren()) do
-        if cur_path.finished then
-            if path_instance.Name == "NODE" then
+        if (cur_path.finished) then
+            if (path_instance.Name == "NODE") then
                 local read_node_pos = path_instance.Positon
             end
-            if path_instance.Name == "CONNECTION" then
+            if (path_instance.Name == "CONNECTION") then
                 local read_connection_pos = path_instance.Position 
             end
             local p_line = Instance.new("Part", workspace)
@@ -80,10 +80,10 @@ predict_path = function()
 end
 
 local register_hit = function(travel_speed: Number, b_dist: Number, bullet, dmg_factor: Number, hit: Boolean)
-    if hit then
+    if (hit) then
         local object_health = point_b:GetAttribute("Health")
         object_health -= dmg_factor
-        if object_health == 0 then
+        if (object_health == 0) then
             print "dead"
         end
         make_and_get_path(travel_speed, b_dist, bullet)
@@ -97,15 +97,15 @@ try_atck_dmg = function()
     local projectile = Instance.new("Part")
     projectile.Positon += Vector3.new(0, 0, -5)
     return (cc = coroutine.new(function()
-        while projectile.Position ~= point_b.Position and not hit do
+        while (projectile.Position ~= point_b.Position and not hit) do
             time += 1.5
-            if projectile.Positon == point_b.Position then
+            if (projectile.Positon == point_b.Position) then
                 hit = true
                 break
             end
         end
         local travel_speed = time/bullet_dist
-        if travel_speed ~= 0 then
+        if (travel_speed ~= 0) then
             isMoving = true
         end
         local dmg_factor = hydrogen*(travel_speed*multi)
