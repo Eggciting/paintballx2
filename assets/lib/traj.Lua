@@ -10,7 +10,7 @@ local clean_up = function(ctn, nodes, n: Number, --[[t: Vector3]])
 		if (#m == n) then
 			break; return (coroutine.wrap(function()
 				for i, _ in pairs (items) do
-					local indiv = math.floor((#m/4)-1)
+					local indiv = math.floor((#items[i]/4)-1)
 					indiv.Size:Lerp(ctn[i].Position, 1)
 				end
 				nodes:Destroy()
