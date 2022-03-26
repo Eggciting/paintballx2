@@ -1,12 +1,12 @@
 local gas = 0.0
 local max_gas = 100.0
-local multi = 2
 
 local isSuppressed = false
 local hit = false
 local isMoving = false
 local current_nodes = {}
 local time
+local died = false
 
 local point_a = workspace.point_a
 local point_b = workspace.point_b
@@ -25,7 +25,7 @@ local charge_gas = function()
     return gas
 end
 
-local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# with this could span out target "prediction"
+local make_and_get_path = function(speed: Number, b_dist: Number, bullet) -- with this could span out target "prediction"
     local create_node_rate = speed/5
     local paths_folder = Instance.new("Folder", workspace)
     paths_folder.Name = "path_folder"
@@ -44,7 +44,7 @@ local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# wi
 	     	if (x >= 0) then
 		  		local new_connection = connection:Clone()
 		  		new_connection.Position = current_nodes[i-1]
-		  		new_connection.Size:Lerp(current_nodes[i+1].Size, 1) --# 100% fullfil rate
+		  		new_connection.Size:Lerp(current_nodes[i+1].Size, 1) -- 100% fullfil rate
 		  	if (new_connect.Size ~= Vector3.new(0,0,0)) then
 		      	new_node.Parent = paths_folder
 		      	new_connection.Parent = paths_folder
@@ -56,24 +56,24 @@ local make_and_get_path = function(speed: Number, b_dist: Number, bullet) --# wi
     end
 end
 
-predict_path = function() --# continue
+predict_path = function()
 	local cur_path = make_and_get_path()
     for _, path_instance in pairs (cur_path.paths_folder:GetChildren()) do
 		if (cur_path.finished) then
-	    	if (path_instance.Name == "NODE") then
-				local read_node_pos = path_instance.Positon
-	     	end
-	     	if (path_instance.Name == "CONNECTION") then
-		  		local read_connection_pos = path_instance.Position 
-	     	end
+	    	-- if (path_instance.Name == "NODE") then
+			-- 	local read_node_pos = path_instance.Positon
+	     	-- end
+	     	-- if (path_instance.Name == "CONNECTION") then
+		  	-- 	local read_connection_pos = path_instance.Position 
+	     	-- end
 	     	local p_line = Instance.new("Part", workspace)
 	     	p_line.Name = "prediciton"
 	     	p_line.Color = Color3.fromRGB(255, 0, 0)
 	     	p_line.Position = point_a.Position
-	     	local tj_measure = traj.calc_and_get_trajectory(cur_path.b_dist, cur_path.speed, isMoving)
+	     	local tj_measure = traj:calc_and_get_trajectory(cur_path.b_dist, cur_path.speed, isMoving)
 	     	if (tj_measure.calculated) then
-		  		print("Trajectory Measured - " ..tj_measure.trajectory) --# is a vec3
-				
+		  		print("Trajectory Measured - " ..tj_measure.trajectory) -- is a vec3
+				p_line.Position = tj_measure.trajectory
 			end
 		end
     end
@@ -84,7 +84,8 @@ local register_hit = function(travel_speed: Number, b_dist: Number, bullet, dmg_
 		local object_health = point_b:GetAttribute("Health")
 	 	object_health -= dmg_factor
 	 	if (object_health == 0) then
-	    	print "dead"
+			died = true
+	    	print("dead: "..died)
 	 	end
 	 	make_and_get_path(travel_speed, b_dist, bullet)
    	end
@@ -96,22 +97,20 @@ try_atck_dmg = function()
     local bullet_dist = point_a.Positon - point_b.Position
     local projectile = Instance.new("Part")
     projectile.Positon += Vector3.new(0, 0, -5)
-    return (cc == coroutine.wrap(function()
-		while (projectile.Position ~= point_b.Position and not hit) do
-	    	time += 1.5
-	     	if (projectile.Positon == point_b.Position) then
-		  		hit = true
-		  	break
-	    end
+
+	while (projectile.Position ~= point_b.Position and not hit) do
+	    time += 1.5
+	 	if (projectile.Positon == point_b.Position) then
+	  		hit = true
+		break
 	end
+	
 	local travel_speed = time/bullet_dist
 	if (travel_speed ~= 0) then
-	    isMoving = true
+		isMoving = true
 	end
-	local dmg_factor = hydrogen*(travel_speed*multi)
+	local dmg_factor = hydrogen*travel_speed
 	register_hit(travel_speed, bullet_dist, projectile, dmg_factor, hit)
-    end
-    ))
 end
 
-try_atck_dmg().resume()
+try_atck_dmg()
