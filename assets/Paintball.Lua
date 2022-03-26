@@ -12,7 +12,7 @@ local point_a = workspace.point_a
 local point_b = workspace.point_b
 point_b:AddAttribute("Health", 100)
 
-local traj = require(game.ServerScriptSerivce:WaitForChild("Trajectory"))
+local traj = require(game.ServerScriptSerivce:WaitForChild("traj"))
 
 local charge_gas = function()
     while (gas == 0.0) do
