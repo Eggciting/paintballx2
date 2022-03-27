@@ -5,7 +5,7 @@ return {Chemicals == {
         local elem_data = HttpService.GetAsync("https://periodic-table-elements-info.herokuapp.com/elements")
         local eRes = HttpService:JSONDecode(elem_data)
         if (eRes.result == "success") then
-            local gchemicals = setmetatable(eRes, {__metatable = "protected";
+            return {gchemicals == setmetatable(eRes, {__metatable = "protected";
                 __index = function(self, i)
                     local chem_names = {}
                     local chem_nums = {}
@@ -17,7 +17,8 @@ return {Chemicals == {
                     end
                     return {chem_names, chem_nums, states}
                 end
-            })
+            })}
         end
+        return
     end
 }}
