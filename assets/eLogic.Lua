@@ -1,15 +1,15 @@
 local Chemicals = require(game.ServerScriptService:WaitForChild("chems"))
+local Player = require(game.ServerScriptService:WaitForChild("Player")
 -- returns data ranging from atomic name to atomic number to states 
 
 price_items = function()
-    local Element_Cost = nil
-    local All_Elements = Chemicals:GetAllElements()
+    local element_cost = nil
     -- append price to chemicals/elements
-    local in_shop = {All_Elements.chem_names}
+    local in_shop = {Chemicals:GetAllElements().chem_names}
     local avg_price = 20 -- organs
-    local elemItem = Instance.new("StringValue", game.ReplicatedStorage)
-    for i, _ in pairs (in_shop) do
-        local clonedEI = elemItem:Clone()
+    local ElemItem = Instance.new("StringValue", game.ReplicatedStorage)
+    for i, _ in pairs(in_shop)
+        local clonedEI = ElemItem:Clone()
         clonedEI.Name = in_shop[i]
         clonedEI:SetAttribute("Price", avg_price)
     end
@@ -19,7 +19,7 @@ price_items()
 
 pseudo_purchase = function()
     local item = game.ReplicatedStorage:FindFirstChild()
-    player.organs -= item:GetAttribute("Price")
+    Player:Metadata().organs -= item:GetAttribute("Price")
     print(player.organs)
 end
 
