@@ -9,7 +9,13 @@ price_items = function()
     local avg_price = 20 -- organs
     local ElemItem = Instance.new("StringValue", game.ReplicatedStorage)
     for i, _ in pairs(in_shop)
-        local clonedEI = ElemItem:Clone()
+        while (i ~= #in_shop) do
+            clonedEI = ElemItem:Clone()
+            clonedEI.parent = Instance.new("Folder", workspace)
+            if (i == #in_shop) then
+                break;
+            end
+        end
         clonedEI.Name = in_shop[i]
         clonedEI:SetAttribute("Price", avg_price)
     end

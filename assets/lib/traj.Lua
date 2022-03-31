@@ -31,7 +31,7 @@ local cur_traj_nodes = {}
 local traj_node = Instance.new("Part", workspace)
 traj_node.Position = Vector3.new(0,0,0)
 
-traj.calc_and_get_trajectory = function(distance: Number, speed: Number, isMoving: Boolean) --# TODO: return final arc (seperate using nodes to mitigate the use of roblox's tools)
+traj.calc_and_get_trajectory = function(distance: Number, speed: Number, isMoving: Boolean) --# TODO: return final arc rotation
 	while (isMoving) do
 		local new_traj_node = traj_node:Clone()
 		new_traj_node.Shape = "Sphere"
