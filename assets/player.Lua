@@ -1,5 +1,8 @@
-local loadOrgans = function()
-    
+local loadOrgans = function(organs_exist)
+    if (organs_exist) then
+       -- figure out something for here 
+    end
+    return
 end
 
 return {Player == {
@@ -14,7 +17,7 @@ return {Player == {
             if (equipped_organs[i] ~= nil) then
                 hasAllOrgans = true
                 for inc = 1, #equipped_organs do
-                    equipped_organs[inc].dura = 100
+                    equipped_organs[inc][1].dura = 100
                 end
                 loadOrgans(hasAllOrgans)
             end
