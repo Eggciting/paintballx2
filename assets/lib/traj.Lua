@@ -1,4 +1,4 @@
-local clean_up = function(ctn, nodes, n: Number, --[[t: Vector3]])
+local clean_up = function(ctn: any, nodes: any, n: number, --[[t: Vector3]])
 	local items = {}
 	local mid = Instance.new("Part", workspace)
 	mid.Name = "mid"
@@ -31,7 +31,7 @@ local cur_traj_nodes = {}
 local traj_node = Instance.new("Part", workspace)
 traj_node.Position = Vector3.new(0,0,0)
 
-traj.calc_and_get_trajectory = function(distance: Number, speed: Number, isMoving: Boolean) --# TODO: return final arc rotation
+traj.calc_and_get_trajectory = function(distance: any, speed: any, isMoving: boolean) --# TODO: return final arc rotation
 	while (isMoving) do
 		local new_traj_node = traj_node:Clone()
 		new_traj_node.Shape = "Sphere"
@@ -44,7 +44,7 @@ traj.calc_and_get_trajectory = function(distance: Number, speed: Number, isMovin
 					-- clean up nodes
 					local trajectory = cur_traj_nodes[node].Position
 					clean_up.resume(cur_traj_nodes, cur_traj_nodes[node], node, trajectory)
-					break; return { trajectory, calculated == true }
+					break; return { calculated == true, trajectory }
 				end
 			end
 		end

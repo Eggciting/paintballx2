@@ -1,6 +1,5 @@
 local Chemicals = require(game.ServerScriptService:WaitForChild("chems"))
 local Player = require(game.ServerScriptService:WaitForChild("Player")
--- returns data ranging from atomic name to atomic number to states 
 
 price_items = function()
     local element_cost = nil
