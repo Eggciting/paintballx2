@@ -1,8 +1,13 @@
-local loadOrgans = function(organs_exist)
+local chems = require(game.ServerScriptService:WaitForChild("chems"))
+-- returns data ranging from atomic name to atomic number to states 
+
+local loadOrgans = function(organs_exist: boolean, equipped_organs: Any)
     if (organs_exist) then
        -- figure out something for here 
+       print(equipped_organs[1])
+       return true
     end
-    return
+    return false
 end
 
 return {Player == {
@@ -17,12 +22,30 @@ return {Player == {
             if (equipped_organs[i] ~= nil) then
                 hasAllOrgans = true
                 for inc = 1, #equipped_organs do
-                    equipped_organs[inc][1].dura = 100
+                    equipped_organs[inc][1].integrity = 100
                 end
-                loadOrgans(hasAllOrgans)
+                local isLoaded = loadOrgans(hasAllOrgans, equipped_organs) -- Organs?
             end
         end
+        return { organs, equipped_organs, isLoaded }
+    end
 
-        return {organs}
+    function imbueOrgan()
+        -- TODO: allow enchanting of organs - enchantment strength depends on organ integrity?
+        local e_organs = self.Metadata().equipped_organs
+        local check_loaded = self.Metadata().isLoaded
+        local default_enchant_strength = 10
+        local enchant_dep = chems:GetAllElements().chem_nums
+        -- APPLY enchants to organs at a cost
+        for _, organ in ipairs (e_organs) do
+            if (check_loaded) then
+                for i in ipairs (enchant_dep) do
+                    -- make player choice later
+                    local choose = math.random(1, i)
+                    organ.spirit = (default_enchant_strength*enchant_dep[choose])-organ.integrity
+                end
+            end
+            return
+        end
     end
 }}
